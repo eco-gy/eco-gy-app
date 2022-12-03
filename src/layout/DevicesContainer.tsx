@@ -1,10 +1,24 @@
 import { Divider, Stack } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { DeviceData } from "../@types/device";
 import Device from "../components/Device";
 import NewDeviceButton from "../components/NewDeviceButton";
 
 const DevicesContainer: FC = () => {
+  let url = "wss://eco-gy.herokuapp.com/datasocket";
+
+  const updater = () => {
+    let socket = new WebSocket(url);
+    socket.onmessage = (event) => {
+      let data = JSON.parse(event.data);
+      console.log(data);
+    };
+  };
+
+  useEffect(() => {
+    updater();
+  }, []);
+
   const devices: DeviceData[] = [
     {
       name: "Laptop",
