@@ -6,6 +6,7 @@ export type StatType = {
 
 export type DeviceData = {
   name: string,
+  uuid: string,
   status: string,
   stats: StatType[]
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Center } from "@chakra-ui/react";
-import DevicesContainer from "./layout/DevicesContainer";
+import DevicesContainer from "./components/DevicesContainer";
 
 function App() {
   const [count, setCount] = useState(0);
