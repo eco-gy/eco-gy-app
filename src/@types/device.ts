@@ -8,5 +8,6 @@ export type DeviceData = {
   name: string,
   id: string,
   status: string,
+  timeoutId?: number;
   stats: StatType[]
 }

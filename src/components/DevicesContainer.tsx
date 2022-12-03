@@ -18,7 +18,27 @@ const DevicesContainer: FC = () => {
       const newState = [...prevState];
       const updateIdx = newState.findIndex((d) => d.id === data.id);
       if (updateIdx >= 0) {
-        newState[updateIdx] = { ...newState[updateIdx], ...data };
+        let timeoutId;
+        if (data.status === "on") {
+          const oldTimeoutId = newState[updateIdx].timeoutId;
+          if (oldTimeoutId) {
+            console.log("clearing timeout", oldTimeoutId);
+            window.clearTimeout(oldTimeoutId);
+          }
+          // launch a timer to declare the machine off after 1 min of no updates
+          timeoutId = window.setTimeout(() => {
+            console.log(data.id, "declared off");
+            updateDeviceStats({
+              data: JSON.stringify({ id: data.id, status: "off" }),
+            });
+          }, 10 * 1000);
+          console.log("new timeout with id", timeoutId);
+        }
+        newState[updateIdx] = {
+          ...newState[updateIdx],
+          ...data,
+          timeoutId,
+        };
         return [...newState];
       }
       return prevState;
@@ -34,6 +54,7 @@ const DevicesContainer: FC = () => {
       if (webSocket.current?.readyState === 1) {
         console.log("closing");
         webSocket.current?.close();
+        webSocket.current = null;
       }
     };
   }, []);
