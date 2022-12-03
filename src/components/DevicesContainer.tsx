@@ -1,6 +1,5 @@
 import { Divider, Stack } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
-import { DeviceData } from "../@types/device";
 import { deviceData } from "../data";
 import Device from "./Device";
 import NewDeviceButton from "./NewDeviceButton";
@@ -33,6 +32,7 @@ const DevicesContainer: FC = () => {
       direction="column"
       width="80%"
       divider={<Divider />}
+      onClick={() => console.log("Go to device page")}
     >
       {deviceStats.map((d) => (
         <Device key={d.name} data={d} />
