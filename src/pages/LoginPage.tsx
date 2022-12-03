@@ -1,42 +1,116 @@
-import { Button, Center, Code, Stack, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Button,
+  Center,
+  Code,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-import { SB_DOMAIN } from "../config/constants";
+import { createClient, User } from "@supabase/supabase-js";
 import { getUserFromStorage } from "../utils/utils";
+import {
+  BACKEND_API,
+  DASHBOARD_PAGE_PATH,
+  LOGIN_PAGE_PATH,
+} from "../config/constants";
+import qs from "qs";
 
 const LoginPage: FC = () => {
   const [signIn, setSignIn] = useState(false);
-  const [token, setToken] = useState(false);
-  const [user, setUser] = useState(getUserFromStorage());
+  const [error, setError] = useState("");
+  const [user, setUser] = useState<User>();
   const supabase = createClient(
     "https://vingtpdmpsgstuzdzynw.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpbmd0cGRtcHNnc3R1emR6eW53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzAwODQ2MTQsImV4cCI6MTk4NTY2MDYxNH0.JzUxXmGHCjONBbFHN-GIi6kt5oxkBzp0OcxTcOwcmsg"
   );
 
+  const getDeviceID = (): string | null => {
+    const queryParams = qs.parse(window.location.search, {
+      ignoreQueryPrefix: true,
+    });
+    const deviceId = queryParams.device_id;
+    if (typeof deviceId === "string") {
+      return deviceId;
+    }
+    return null;
+  };
+
+  const getUser = async (): Promise<User | undefined> => {
+    const { error } = await supabase.auth.getSession();
+    if (error) {
+      console.log(error);
+      return;
+    }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      setUser(user);
+      return user;
+    }
+    return;
+  };
+
   const loginGithub = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
       options: {
-        redirectTo: "/login",
+        redirectTo: `${window.location.origin}${LOGIN_PAGE_PATH}${window.location.search}`,
       },
     });
 
-    const user = getUserFromStorage();
-    if (user) {
-      setUser(user);
-    }
+    getUser();
   };
+
+  const logoutGithub = async () => {
+    await supabase.auth.signOut();
+    setUser(undefined);
+  };
+
+  const makeAssociation = (payload: { deviceId: string; userId: string }) => {
+    fetch(BACKEND_API, {
+      method: "POST",
+      mode: "cors",
+      body: JSON.stringify(payload),
+    }).catch((err) => {
+      setError("Error during the association process");
+      console.log("error making association", err);
+    });
+  };
+
+  // initial load of the page
+  useEffect(() => {
+    getUser().then((tempUser) => {
+      const deviceId = getDeviceID();
+      console.log(tempUser, deviceId);
+
+      if (deviceId && tempUser && tempUser.id) {
+        console.log("make api call to associate", deviceId, tempUser.id);
+        makeAssociation({ deviceId, userId: tempUser.id });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (signIn) {
-      loginGithub();
+      if (!user) {
+        console.log("login");
+        loginGithub();
+      } else {
+        logoutGithub();
+      }
+      setSignIn(false);
     }
   }, [signIn]);
 
   return (
     <Center height="100vh">
       <Stack>
-        <Button onClick={() => setSignIn(true)}>Login</Button>
+        <Button onClick={() => setSignIn(true)}>
+          {user ? "Loggout" : "Login"}
+        </Button>
         {user ? (
           <>
             <Text>
@@ -48,6 +122,12 @@ const LoginPage: FC = () => {
           </>
         ) : (
           <Text>Not logged in</Text>
+        )}
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
         )}
       </Stack>
     </Center>

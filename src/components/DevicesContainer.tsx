@@ -13,6 +13,8 @@ const DevicesContainer: FC = () => {
   const updater = () => {
     let socket = new WebSocket(url);
     socket.onmessage = (event) => {
+      console.log(event.data);
+
       let data = JSON.parse(event.data);
       // update stats from device specified in message
       // setDeviceStats({ ...deviceStats });
