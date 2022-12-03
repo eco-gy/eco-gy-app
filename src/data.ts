@@ -3,35 +3,25 @@ import { DeviceData } from "./@types/device";
   export const deviceData: DeviceData[] = [
     {
       name: "Laptop Victor",
-      uuid: "42",
-      status: "on",
+      id: "7e2500d5-6a79-486c-9777-d4a52f19d8b5",
+      status: "off",
       stats: [
         {
-          name: "Consumption",
-          value: 34,
-          unit: "W/h",
-        },
-        {
-          name: "CO2",
-          value: 120,
-          unit: "kg",
+          name: "Power",
+          value: "0",
+          unit: "W",
         },
       ],
     },
     {
-      name: "Desktop",
-      uuid: "128",
+      name: "Victor VM",
+      id: "3aae14f1-5aed-4a84-bb61-4f41dde8d1cf",
       status: "off",
       stats: [
         {
-          name: "Consumption",
-          value: 0,
-          unit: "W/h",
-        },
-        {
-          name: "CO2",
-          value: 0,
-          unit: "kg",
+          name: "Power",
+          value: "0.0",
+          unit: "W",
         },
       ],
     },

@@ -18,7 +18,7 @@ const MainStats: FC<Props> = ({ stats }) => {
       {stats.map((s) => (
         <Stat key={s.name}>
           <StatLabel>{s.name}</StatLabel>
-          <StatNumber>{s.value}</StatNumber>
+          <StatNumber>{parseFloat(s.value).toFixed(3)}</StatNumber>
           <StatHelpText>{s.unit}</StatHelpText>
         </Stat>
       ))}

@@ -1,12 +1,12 @@
 export type StatType = {
   name: string,
-  value: number,
+  value: string,
   unit: string,
 }
 
 export type DeviceData = {
   name: string,
-  uuid: string,
+  id: string,
   status: string,
   stats: StatType[]
 }
