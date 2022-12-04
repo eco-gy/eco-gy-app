@@ -19,7 +19,7 @@ const EarthMinion: FC<Props> = ({ status }) => {
   return (
     <Image
       src={earths[status]}
-      width="20rem"
+      w={[100, 200]}
       position="fixed"
       bottom="12px"
       left="12px"

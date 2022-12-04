@@ -109,7 +109,10 @@ const DevicesContainer: FC = () => {
         ))}
         <NewDeviceButton />
       </Stack>
-      <Text alignSelf="flex-end">{`Updated ${lastUpdate}`}</Text>
+      <Text
+        alignSelf="flex-end"
+        color="rgba(255, 255, 255, 0.4)"
+      >{`Updated ${lastUpdate}`}</Text>
       <EarthMinion
         status={
           totalEmmissions < 68.5

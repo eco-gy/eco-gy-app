@@ -14,7 +14,7 @@ const DeviceInfo: FC<Props> = ({ name, status, stats }) => {
           cx="25"
           cy="25"
           r="10"
-          fill={status === "on" ? "#4caf50" : "#f44336"}
+          fill={status === "on" ? "#F25749" : "#73465F"}
         />
       </svg>
       <Box>
