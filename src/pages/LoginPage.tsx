@@ -10,7 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FC, useEffect, useState } from "react";
-import { BACKEND_API, DASHBOARD_PAGE_PATH } from "../config/constants";
+import {
+  ASSOCIATE_ENDPOINT,
+  BACKEND_API,
+  DASHBOARD_PAGE_PATH,
+} from "../config/constants";
 import qs from "qs";
 import { useNavigate, Link } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
@@ -34,7 +38,7 @@ const LoginPage: FC = () => {
   };
 
   const makeAssociation = (payload: { deviceId: string; userId: string }) => {
-    fetch(BACKEND_API, {
+    fetch(`${BACKEND_API}${ASSOCIATE_ENDPOINT}`, {
       method: "POST",
       mode: "cors",
       body: JSON.stringify(payload),
