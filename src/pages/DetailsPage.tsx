@@ -23,6 +23,7 @@ const DetailsPage: FC = () => {
   const getData = async (device_id: string) => {
     const data = await fetch(`${BACKEND_API}${DEVICE_HISTORY_ENDPOINT}`, {
       method: "POST",
+      mode: "no-cors",
       body: JSON.stringify({ device_id }),
     }).then((res) => res.json());
     console.log(data);
