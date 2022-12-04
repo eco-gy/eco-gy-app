@@ -18,6 +18,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import LoginButton from "../components/common/LoginButton";
 import DashBoardButton from "../components/common/DashBoardButton";
+import UserAvatar from "../components/common/UserAvatar";
 
 const LoginPage: FC = () => {
   const { user } = useUserContext();
@@ -75,21 +76,6 @@ const LoginPage: FC = () => {
         <LoginButton />
         {user ? (
           <Center flexDirection="column" gap={4}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              position="fixed"
-              top="12px"
-              right="12px"
-            >
-              <Avatar
-                name={user.user_metadata.name}
-                src={user.user_metadata["avatar_url"]}
-              />
-              <Text fontSize="xl">
-                {user.user_metadata["preferred_username"]}
-              </Text>
-            </Stack>
             <Text>
               Logged in as <Code>{user.email}</Code>
             </Text>

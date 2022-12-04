@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { ColorModeSwitcher } from "../components/common/ColorModeSwitcher";
 import { Outlet } from "react-router-dom";
+import UserAvatar from "../components/common/UserAvatar";
 
 const MainLayout: FC = () => {
   return (
     <>
-      <ColorModeSwitcher />
+      <UserAvatar />
       <Outlet />
     </>
   );
