@@ -11,7 +11,12 @@ import {
   Label,
   ResponsiveContainer,
 } from "recharts";
-import { BACKEND_API, DEVICE_HISTORY_ENDPOINT } from "../config/constants";
+import {
+  BACKEND_API,
+  DASHBOARD_PAGE_PATH,
+  DEVICE_HISTORY_ENDPOINT,
+} from "../config/constants";
+import DashBoardButton from "../components/common/DashBoardButton";
 
 const DetailsPage: FC = () => {
   const [data, setData] = useState([]);
@@ -81,7 +86,7 @@ const DetailsPage: FC = () => {
   // ];
   return (
     <Center>
-      <Stack>
+      <Stack direction="column" alignItems="center">
         <Heading
           size="lg"
           textAlign="center"
@@ -115,6 +120,7 @@ const DetailsPage: FC = () => {
             </ResponsiveContainer>
           </Box>
         </Center>
+        <DashBoardButton />
       </Stack>
     </Center>
   );

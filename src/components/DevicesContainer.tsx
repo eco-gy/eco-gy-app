@@ -27,7 +27,7 @@ const DevicesContainer: FC = () => {
   const webSocket = useRef<WebSocket | null>(null);
 
   const updateDeviceStats = (message: string) => {
-    let data = JSON.parse(message) as Omit<DeviceData, "name">;
+    let data = JSON.parse(message) as DeviceData;
     const id = data.id;
     if (data.status === "on") {
       const oldTimeoutId = timeoutIds[id];
@@ -56,7 +56,7 @@ const DevicesContainer: FC = () => {
         };
         return [...newState];
       } else {
-        return [...newState, { ...data, name: data.id }];
+        return [...newState, { ...data }];
       }
     });
   };

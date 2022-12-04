@@ -2,13 +2,11 @@ import {
   Alert,
   AlertIcon,
   Avatar,
-  Button,
   Center,
   Code,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { AiOutlineDashboard } from "react-icons/ai";
 import { FC, useEffect, useState } from "react";
 import {
   ASSOCIATE_ENDPOINT,
@@ -19,6 +17,7 @@ import qs from "qs";
 import { useNavigate, Link } from "react-router-dom";
 import { useUserContext } from "../context/UserContext";
 import LoginButton from "../components/common/LoginButton";
+import DashBoardButton from "../components/common/DashBoardButton";
 
 const LoginPage: FC = () => {
   const { user } = useUserContext();
@@ -92,9 +91,7 @@ const LoginPage: FC = () => {
             <Text>
               User ID is <Code>{user.id}</Code>
             </Text>
-            <Link to={DASHBOARD_PAGE_PATH}>
-              <Button leftIcon={<AiOutlineDashboard />}>Go to dashboard</Button>
-            </Link>
+            <DashBoardButton />
           </Center>
         ) : (
           <Text>Not logged in</Text>
