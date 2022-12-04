@@ -91,7 +91,7 @@ const DevicesContainer: FC = () => {
   return (
     <VStack width="80%">
       <HStack justifyContent="space-between" width="100%">
-        <Heading fontSize={[12, 16]}>my devices</Heading>
+        <Heading fontSize={[20, 32]}>my devices</Heading>
         <LoginButton />
       </HStack>
       <Stack
