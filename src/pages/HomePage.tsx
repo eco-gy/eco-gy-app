@@ -7,12 +7,7 @@ import WelcomePage from "./WelcomePage";
 const HomePage: FC = () => {
   const { user } = useUserContext();
   if (user) {
-    return (
-      <Center height="100vh">
-        <WelcomePage />
-        <LoginPage />
-      </Center>
-    );
+    return <WelcomePage />;
   }
   return <WelcomePage />;
 };
