@@ -33,7 +33,7 @@ const theme = extendTheme({
       body: {
         fontFamily: 'body',
         color: mode('gray.800', 'whiteAlpha.900')(props),
-        bg: mode('red.200', 'red.900')(props),
+        bg: mode('red.200', '#401E2E')(props),
         lineHeight: 'base',
       },
     }),
