@@ -24,7 +24,7 @@ const NewDeviceButton: FC = () => {
       <IconButton
         onClick={() => setOpen(true)}
         variant="ghost"
-        icon={<AddIcon />}
+        icon={<AddIcon color="black" />}
         aria-label="add device"
       />
       <Modal isOpen={open} onClose={onClose}>

@@ -19,7 +19,7 @@ let url = "wss://api.eco.gy/datasocket";
 // let url = "wss://2c94-46-253-188-135.eu.ngrok.io/datasocket";
 
 const DevicesContainer: FC = () => {
-  const [deviceStats, setDeviceStats] = useState([]);
+  const [deviceStats, setDeviceStats] = useState<DeviceData[]>([]);
   const [lastUpdate, setLastUpdate] = useState<string>("");
   const [newMessage, setNewMessage] = useState("");
   const [timeoutIds, setTimeoutIds] = useState<{ [key: string]: number }>({});

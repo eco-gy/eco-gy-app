@@ -6,7 +6,7 @@ type Props = Pick<DeviceData, "name" | "status" | "stats">;
 const DeviceInfo: FC<Props> = ({ name, status, stats }) => {
   const co2Value = parseFloat(
     stats.find((k) => k.name === "Co2")?.value || "0"
-  );
+  ).toFixed(2);
   return (
     <HStack flexDirection="row" color="white">
       <svg height="50" width="50">
@@ -20,7 +20,7 @@ const DeviceInfo: FC<Props> = ({ name, status, stats }) => {
       <Box>
         <Heading color="black">{name}</Heading>
         <Text color="black">
-          {status === "on"
+          {status === "off"
             ? "Device is off and currently not producing any emissions"
             : `${co2Value}g CO2 emitted since you opened this page`}
         </Text>
