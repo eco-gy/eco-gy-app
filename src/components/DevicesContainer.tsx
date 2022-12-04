@@ -1,6 +1,15 @@
-import { Divider, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+  Button,
+  Divider,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 import { DeviceData } from "../@types/device";
+import { DEVICE_TIMEOUT } from "../config/constants";
 import { deviceData } from "../data";
 import Device from "./Device";
 import EarthMinion from "./EarthMinion";
@@ -28,7 +37,7 @@ const DevicesContainer: FC = () => {
       const timeoutId = setTimeout(() => {
         console.log(data.id, "declared off");
         setNewMessage(() => JSON.stringify({ id: data.id, status: "off" }));
-      }, 10 * 1000);
+      }, DEVICE_TIMEOUT);
       setTimeoutIds((prevState) => ({ ...prevState, [id]: timeoutId }));
     }
     setLastUpdate(() => {
@@ -74,6 +83,10 @@ const DevicesContainer: FC = () => {
 
   return (
     <VStack width="80%">
+      <HStack justifyContent="space-between" width="100%">
+        <Heading>my devices</Heading>
+        <Button>Logout </Button>
+      </HStack>
       <Stack
         padding={4}
         borderRadius="12px"
@@ -81,6 +94,7 @@ const DevicesContainer: FC = () => {
         direction="column"
         divider={<Divider />}
         width="100%"
+        background="white"
         onClick={() => console.log("Go to device page")}
       >
         {deviceStats.map((d) => (

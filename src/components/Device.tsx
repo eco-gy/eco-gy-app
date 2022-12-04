@@ -22,7 +22,7 @@ const Device: FC<Props> = ({ data }) => {
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <DeviceInfo name={data.name} status={data.status} />
 
-        <MainStats stats={data.stats} />
+        {data.status === "on" && <MainStats stats={data.stats} />}
       </Stack>
     </Link>
   );
