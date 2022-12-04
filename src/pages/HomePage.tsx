@@ -9,7 +9,7 @@ const HomePage: FC = () => {
   if (user) {
     return (
       <Center height="100vh">
-        <Heading>Home</Heading>
+        <WelcomePage />
         <LoginPage />
       </Center>
     );

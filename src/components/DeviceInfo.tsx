@@ -9,16 +9,20 @@ const DeviceInfo: FC<Props> = ({ name, status, stats }) => {
   ).toFixed(2);
   return (
     <HStack flexDirection="row" color="white">
-      <svg height="50" width="50">
-        <circle
-          cx="25"
-          cy="25"
-          r="10"
-          fill={status === "on" ? "#F25749" : "#73465F"}
-        />
-      </svg>
       <Box>
-        <Heading color="black">{name}</Heading>
+        <svg height="50" width="50">
+          <circle
+            cx="25"
+            cy="25"
+            r="10"
+            fill={status === "on" ? "#F25749" : "#73465F"}
+          />
+        </svg>
+      </Box>
+      <Box>
+        <Heading color="black" fontSize={{ base: "lg", sm: "3xl" }}>
+          {name}
+        </Heading>
         <Text color="black">
           {status === "off"
             ? "Device is off and currently not producing any emissions"

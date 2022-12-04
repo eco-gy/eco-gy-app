@@ -7,6 +7,7 @@ const LoginButton: FC = () => {
   const { login, logout, user } = useUserContext();
   return (
     <Button
+      fontSize={[12, 16]}
       backgroundColor="#0D0D0D"
       leftIcon={<GoMarkGithub />}
       onClick={() => {
