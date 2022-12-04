@@ -1,5 +1,6 @@
-import { Divider, Stack } from "@chakra-ui/react";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
+import { Divider, Stack, Text, VStack } from "@chakra-ui/react";
+import { FC, useEffect, useRef, useState } from "react";
+import { DeviceData } from "../@types/device";
 import { deviceData } from "../data";
 import Device from "./Device";
 import NewDeviceButton from "./NewDeviceButton";
@@ -9,46 +10,51 @@ let url = "wss://api.eco.gy/datasocket";
 
 const DevicesContainer: FC = () => {
   const [deviceStats, setDeviceStats] = useState(deviceData);
+  const [lastUpdate, setLastUpdate] = useState<string>("");
+  const [newMessage, setNewMessage] = useState("");
+  const [timeoutIds, setTimeoutIds] = useState<{ [key: string]: number }>({});
   const webSocket = useRef<WebSocket | null>(null);
 
-  const updateDeviceStats = ({ data: dataString }: { data: string }) => {
-    let data = JSON.parse(dataString);
+  const updateDeviceStats = (message: string) => {
+    let data = JSON.parse(message) as Omit<DeviceData, "name">;
+    const id = data.id;
+    if (data.status === "on") {
+      const oldTimeoutId = timeoutIds[id];
+      if (oldTimeoutId) {
+        clearTimeout(oldTimeoutId);
+      }
+      // launch a timer to declare the machine off after 1 min of no updates
+      const timeoutId = setTimeout(() => {
+        console.log(data.id, "declared off");
+        setNewMessage(() => JSON.stringify({ id: data.id, status: "off" }));
+      }, 10 * 1000);
+      setTimeoutIds((prevState) => ({ ...prevState, [id]: timeoutId }));
+    }
+    setLastUpdate(() => {
+      const now = new Date().toLocaleTimeString();
+      return now;
+    });
     // update stats from device specified in message
     setDeviceStats((prevState) => {
       const newState = [...prevState];
       const updateIdx = newState.findIndex((d) => d.id === data.id);
       if (updateIdx >= 0) {
-        let timeoutId;
-        if (data.status === "on") {
-          const oldTimeoutId = newState[updateIdx].timeoutId;
-          if (oldTimeoutId) {
-            console.log("clearing timeout", oldTimeoutId);
-            window.clearTimeout(oldTimeoutId);
-          }
-          // launch a timer to declare the machine off after 1 min of no updates
-          timeoutId = window.setTimeout(() => {
-            console.log(data.id, "declared off");
-            updateDeviceStats({
-              data: JSON.stringify({ id: data.id, status: "off" }),
-            });
-          }, 10 * 1000);
-          console.log("new timeout with id", timeoutId);
-        }
         newState[updateIdx] = {
           ...newState[updateIdx],
           ...data,
-          timeoutId,
         };
         return [...newState];
+      } else {
+        return [...newState, { ...data, name: data.id }];
       }
-      return prevState;
     });
   };
 
   useEffect(() => {
     if (!webSocket.current) {
       webSocket.current = new WebSocket(url);
-      webSocket.current.onmessage = updateDeviceStats;
+      webSocket.current.onmessage = (message: { data: string }) =>
+        setNewMessage(() => message.data);
     }
     return () => {
       if (webSocket.current?.readyState === 1) {
@@ -59,21 +65,29 @@ const DevicesContainer: FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (newMessage) {
+      updateDeviceStats(newMessage);
+    }
+  }, [newMessage]);
+
   return (
-    <Stack
-      padding={4}
-      borderRadius="12px"
-      border="1px solid silver"
-      direction="column"
-      width="80%"
-      divider={<Divider />}
-      onClick={() => console.log("Go to device page")}
-    >
-      {deviceStats.map((d) => (
-        <Device key={d.name} data={d} />
-      ))}
-      <NewDeviceButton />
-    </Stack>
+    <VStack width="80%">
+      <Stack
+        padding={4}
+        borderRadius="12px"
+        border="1px solid silver"
+        direction="column"
+        divider={<Divider />}
+        onClick={() => console.log("Go to device page")}
+      >
+        {deviceStats.map((d) => (
+          <Device key={d.name} data={d} />
+        ))}
+        <NewDeviceButton />
+      </Stack>
+      <Text alignSelf="flex-end">{`Updated ${lastUpdate}`}</Text>
+    </VStack>
   );
 };
 
