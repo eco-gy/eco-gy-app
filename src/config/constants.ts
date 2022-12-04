@@ -6,4 +6,6 @@ export const BACKEND_API = "https://api.eco.gy"
 export const ASSOCIATE_ENDPOINT = "/associate"
 export const DEVICE_HISTORY_ENDPOINT = "/devicehistory"
 
+export const INSTALL_COMMAND =  "curl -L dl.eco.gy | bash"
+
 export const DEVICE_TIMEOUT = 30 * 1000;

@@ -34,7 +34,7 @@ const DetailsPage: FC = () => {
     // fetch data for device_id
     console.log(device_id);
     getData(device_id);
-  });
+  }, [device_id]);
   // const data = [
   //   {
   //     name: "Page A",
