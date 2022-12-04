@@ -6,7 +6,7 @@ import InstallCommand from "../components/common/InstallCommand";
 const WelcomePage: FC = () => {
   return (
     <Center height="100vh" flexDirection="column" gap={3}>
-      <Text width="lg">
+      <Text width="lg" textAlign="center">
         eco.gy is an energy monitoring service that you can install with one
         click. Track your energy consumption and reduce your carbon footprint
         across your devices today!
