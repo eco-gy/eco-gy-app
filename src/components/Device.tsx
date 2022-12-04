@@ -20,7 +20,7 @@ const Device: FC<Props> = ({ data }) => {
   return (
     <Link to={{ pathname: DETAILS_PAGE_PATH, search: `?device_id=${data.id}` }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <DeviceInfo name={data.name} status={data.status} />
+        <DeviceInfo name={data.name} status={data.status} stats={data.stats} />
 
         {data.status === "on" && <MainStats stats={data.stats} />}
       </Stack>
