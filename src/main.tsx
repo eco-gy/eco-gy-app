@@ -13,21 +13,24 @@ import DashboardPage from "./pages/DashboardPage";
 import theme from "./theme";
 import MainLayout from "./layout/MainLayout";
 import DetailsPage from "./pages/DetailsPage";
+import { UserProvider } from "./context/UserContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path={LOGIN_PAGE_PATH} element={<LoginPage />} />
-            <Route path={DASHBOARD_PAGE_PATH} element={<DashboardPage />} />
-            <Route path={DETAILS_PAGE_PATH} element={<DetailsPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<HomePage />} />
+              <Route path={LOGIN_PAGE_PATH} element={<LoginPage />} />
+              <Route path={DASHBOARD_PAGE_PATH} element={<DashboardPage />} />
+              <Route path={DETAILS_PAGE_PATH} element={<DetailsPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
     </ChakraProvider>
   </React.StrictMode>
 );

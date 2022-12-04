@@ -2,34 +2,24 @@ import {
   Alert,
   AlertIcon,
   Avatar,
-  Box,
   Button,
   Center,
   Code,
-  Heading,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { GoMarkGithub } from "react-icons/go";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FC, useEffect, useState } from "react";
-import { createClient, User } from "@supabase/supabase-js";
-import {
-  BACKEND_API,
-  DASHBOARD_PAGE_PATH,
-  LOGIN_PAGE_PATH,
-} from "../config/constants";
+import { BACKEND_API, DASHBOARD_PAGE_PATH } from "../config/constants";
 import qs from "qs";
 import { useNavigate, Link } from "react-router-dom";
+import { useUserContext } from "../context/UserContext";
+import LoginButton from "../components/common/LoginButton";
 
 const LoginPage: FC = () => {
-  const [signIn, setSignIn] = useState(false);
+  const { user } = useUserContext();
   const [error, setError] = useState("");
-  const [user, setUser] = useState<User>();
-  const supabase = createClient(
-    "https://vingtpdmpsgstuzdzynw.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZpbmd0cGRtcHNnc3R1emR6eW53Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzAwODQ2MTQsImV4cCI6MTk4NTY2MDYxNH0.JzUxXmGHCjONBbFHN-GIi6kt5oxkBzp0OcxTcOwcmsg"
-  );
+
   const navigate = useNavigate();
 
   const getDeviceID = (): string | null => {
@@ -41,38 +31,6 @@ const LoginPage: FC = () => {
       return deviceId;
     }
     return null;
-  };
-
-  const getUser = async (): Promise<User | undefined> => {
-    const { error } = await supabase.auth.getSession();
-    if (error) {
-      console.log(error);
-      return;
-    }
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
-      setUser(user);
-      return user;
-    }
-    return;
-  };
-
-  const loginGithub = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: {
-        redirectTo: `${window.location.origin}${LOGIN_PAGE_PATH}${window.location.search}`,
-      },
-    });
-
-    getUser();
-  };
-
-  const logoutGithub = async () => {
-    await supabase.auth.signOut();
-    setUser(undefined);
   };
 
   const makeAssociation = (payload: { deviceId: string; userId: string }) => {
@@ -92,35 +50,21 @@ const LoginPage: FC = () => {
 
   // initial load of the page
   useEffect(() => {
-    getUser().then((tempUser) => {
+    if (user) {
       const deviceId = getDeviceID();
-      console.log(tempUser, deviceId);
+      console.log(user, deviceId);
 
-      if (deviceId && tempUser && tempUser.id) {
-        console.log("make api call to associate", deviceId, tempUser.id);
-        makeAssociation({ deviceId, userId: tempUser.id });
+      if (deviceId && user && user.id) {
+        console.log("make api call to associate", deviceId, user.id);
+        makeAssociation({ deviceId, userId: user.id });
       }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (signIn) {
-      if (!user) {
-        console.log("login");
-        loginGithub();
-      } else {
-        logoutGithub();
-      }
-      setSignIn(false);
     }
-  }, [signIn]);
+  }, [user]);
 
   return (
     <Center height="100vh">
       <Stack>
-        <Button leftIcon={<GoMarkGithub />} onClick={() => setSignIn(true)}>
-          {user ? "Loggout" : "Login"}
-        </Button>
+        <LoginButton />
         {user ? (
           <Center flexDirection="column" gap={4}>
             <Stack
