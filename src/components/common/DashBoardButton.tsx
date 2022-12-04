@@ -16,9 +16,9 @@ const DashBoardButton: FC = () => {
           Open Dashboard
         </Button>
       </Link>
-      <Text color="rgba(255, 255, 255, 0.4)">
+      {/* <Text color="rgba(255, 255, 255, 0.4)">
         see what other devices are consuming
-      </Text>
+      </Text> */}
     </Stack>
   );
 };
