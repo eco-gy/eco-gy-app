@@ -29,7 +29,7 @@ const NewDeviceButton: FC = () => {
       />
       <Modal isOpen={open} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#401E2E">
           <ModalHeader>Add New Device</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
