@@ -3,6 +3,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { DeviceData } from "../@types/device";
 import { deviceData } from "../data";
 import Device from "./Device";
+import EarthMinion from "./EarthMinion";
 import NewDeviceButton from "./NewDeviceButton";
 
 let url = "wss://api.eco.gy/datasocket";
@@ -79,6 +80,7 @@ const DevicesContainer: FC = () => {
         border="1px solid silver"
         direction="column"
         divider={<Divider />}
+        width="100%"
         onClick={() => console.log("Go to device page")}
       >
         {deviceStats.map((d) => (
@@ -87,6 +89,7 @@ const DevicesContainer: FC = () => {
         <NewDeviceButton />
       </Stack>
       <Text alignSelf="flex-end">{`Updated ${lastUpdate}`}</Text>
+      <EarthMinion status={"bofbof"} />
     </VStack>
   );
 };

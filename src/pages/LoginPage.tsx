@@ -11,6 +11,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { GoMarkGithub } from "react-icons/go";
+import { AiOutlineDashboard } from "react-icons/ai";
 import { FC, useEffect, useState } from "react";
 import { createClient, User } from "@supabase/supabase-js";
 import {
@@ -144,7 +145,7 @@ const LoginPage: FC = () => {
               User ID is <Code>{user.id}</Code>
             </Text>
             <Link to={DASHBOARD_PAGE_PATH}>
-              <Button>Go to dashboard</Button>
+              <Button leftIcon={<AiOutlineDashboard />}>Go to dashboard</Button>
             </Link>
           </Center>
         ) : (
