@@ -1,12 +1,16 @@
 import {
   Alert,
   AlertIcon,
+  Avatar,
+  Box,
   Button,
   Center,
   Code,
+  Heading,
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { GoMarkGithub } from "react-icons/go";
 import { FC, useEffect, useState } from "react";
 import { createClient, User } from "@supabase/supabase-js";
 import {
@@ -113,11 +117,26 @@ const LoginPage: FC = () => {
   return (
     <Center height="100vh">
       <Stack>
-        <Button onClick={() => setSignIn(true)}>
+        <Button leftIcon={<GoMarkGithub />} onClick={() => setSignIn(true)}>
           {user ? "Loggout" : "Login"}
         </Button>
         {user ? (
           <Center flexDirection="column" gap={4}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              position="fixed"
+              top="12px"
+              right="12px"
+            >
+              <Avatar
+                name={user.user_metadata.name}
+                src={user.user_metadata["avatar_url"]}
+              />
+              <Text fontSize="xl">
+                {user.user_metadata["preferred_username"]}
+              </Text>
+            </Stack>
             <Text>
               Logged in as <Code>{user.email}</Code>
             </Text>
