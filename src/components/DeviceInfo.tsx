@@ -18,8 +18,8 @@ const DeviceInfo: FC<Props> = ({ name, status, stats }) => {
         />
       </svg>
       <Box>
-        <Heading>{name}</Heading>
-        <Text>
+        <Heading color="black">{name}</Heading>
+        <Text color="black">
           {status === "on"
             ? "Device is off and currently not producing any emissions"
             : `${co2Value}g CO2 emitted since you opened this page`}

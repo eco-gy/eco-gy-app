@@ -1,5 +1,4 @@
 import {
-  Button,
   Divider,
   Heading,
   HStack,
@@ -20,7 +19,7 @@ let url = "wss://api.eco.gy/datasocket";
 // let url = "wss://2c94-46-253-188-135.eu.ngrok.io/datasocket";
 
 const DevicesContainer: FC = () => {
-  const [deviceStats, setDeviceStats] = useState(deviceData);
+  const [deviceStats, setDeviceStats] = useState([]);
   const [lastUpdate, setLastUpdate] = useState<string>("");
   const [newMessage, setNewMessage] = useState("");
   const [timeoutIds, setTimeoutIds] = useState<{ [key: string]: number }>({});
@@ -81,11 +80,14 @@ const DevicesContainer: FC = () => {
       updateDeviceStats(newMessage);
     }
   }, [newMessage]);
-  const totalEmmissions = deviceStats
-    .map((d) =>
-      parseFloat(d.stats.find((k) => k.value === "Co2")?.value || "0")
-    )
-    .reduce((acc, val) => (acc += val), 0);
+  const co2Stats = deviceStats.map((d) =>
+    parseFloat(d.stats.find((k) => k.name === "Co2")?.value || "0")
+  );
+  console.log(co2Stats);
+  const totalEmmissions = co2Stats.reduce((acc, val) => {
+    acc += val;
+    return acc;
+  }, 0);
   return (
     <VStack width="80%">
       <HStack justifyContent="space-between" width="100%">
@@ -108,8 +110,15 @@ const DevicesContainer: FC = () => {
         <NewDeviceButton />
       </Stack>
       <Text alignSelf="flex-end">{`Updated ${lastUpdate}`}</Text>
-      <Text>{totalEmmissions}</Text>
-      <EarthMinion status={"bofbof"} />
+      <EarthMinion
+        status={
+          totalEmmissions < 68.5
+            ? "happy"
+            : totalEmmissions > 600
+            ? "sad"
+            : "bofbof"
+        }
+      />
     </VStack>
   );
 };

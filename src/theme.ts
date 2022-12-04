@@ -6,7 +6,7 @@ const theme = extendTheme({
       body: {
         fontFamily: 'body',
         bg: '#401E2E',
-        color: "gray",
+        color: "white",
         lineHeight: 'base',
       },
     },

@@ -14,7 +14,7 @@ type Props = {
 
 const MainStats: FC<Props> = ({ stats }) => {
   return (
-    <StatGroup gap={4}>
+    <StatGroup color="orange" gap={4}>
       {stats.map((s) => (
         <Stat key={s.name}>
           <StatLabel>{s.name}</StatLabel>
