@@ -11,6 +11,7 @@ import { FC, useEffect, useRef, useState } from "react";
 import { DeviceData } from "../@types/device";
 import { DEVICE_TIMEOUT } from "../config/constants";
 import { deviceData } from "../data";
+import LoginButton from "./common/LoginButton";
 import Device from "./Device";
 import EarthMinion from "./EarthMinion";
 import NewDeviceButton from "./NewDeviceButton";
@@ -85,7 +86,7 @@ const DevicesContainer: FC = () => {
     <VStack width="80%">
       <HStack justifyContent="space-between" width="100%">
         <Heading>my devices</Heading>
-        <Button>Logout </Button>
+        <LoginButton />
       </HStack>
       <Stack
         padding={4}
