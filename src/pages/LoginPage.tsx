@@ -36,11 +36,16 @@ const LoginPage: FC = () => {
     return null;
   };
 
-  const makeAssociation = (payload: { deviceId: string; userId: string }) => {
+  const makeAssociation = ({
+    deviceId,
+    userId,
+  }: {
+    deviceId: string;
+    userId: string;
+  }) => {
     fetch(`${BACKEND_API}${ASSOCIATE_ENDPOINT}`, {
       method: "POST",
-      mode: "cors",
-      body: JSON.stringify(payload),
+      body: JSON.stringify({ device_id: deviceId, user_id: userId }),
     })
       .then(() => {
         navigate(DASHBOARD_PAGE_PATH);

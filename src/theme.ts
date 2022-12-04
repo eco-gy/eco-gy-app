@@ -21,7 +21,7 @@ const Button = defineStyleConfig({
     },
     solid:  (props: StyleFunctionProps) => ({
       bg: mode('purple.500', "yellow.500")(props),
-      color: 'white',
+      color: mode('black', "white")(props),
     }),
   },
 })

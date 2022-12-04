@@ -7,8 +7,8 @@ import { DeviceData } from "./@types/device";
       status: "off",
       stats: [
         {
-          name: "Power",
-          value: "0",
+          name: "Co2",
+          value: "0.34",
           unit: "W",
         },
       ],
@@ -19,8 +19,8 @@ import { DeviceData } from "./@types/device";
       status: "off",
       stats: [
         {
-          name: "Power",
-          value: "0.0",
+          name: "Co2",
+          value: "2.0",
           unit: "W",
         },
       ],

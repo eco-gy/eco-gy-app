@@ -81,7 +81,11 @@ const DevicesContainer: FC = () => {
       updateDeviceStats(newMessage);
     }
   }, [newMessage]);
-
+  const totalEmmissions = deviceStats
+    .map((d) =>
+      parseFloat(d.stats.find((k) => k.value === "Co2")?.value || "0")
+    )
+    .reduce((acc, val) => (acc += val), 0);
   return (
     <VStack width="80%">
       <HStack justifyContent="space-between" width="100%">
@@ -104,6 +108,7 @@ const DevicesContainer: FC = () => {
         <NewDeviceButton />
       </Stack>
       <Text alignSelf="flex-end">{`Updated ${lastUpdate}`}</Text>
+      <Text>{totalEmmissions}</Text>
       <EarthMinion status={"bofbof"} />
     </VStack>
   );
